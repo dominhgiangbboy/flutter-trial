@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:trialdemo/features/trialdemo/data/datasoures/user_info_local_data_source.dart';
 import 'package:trialdemo/features/trialdemo/ui/pages/home/widgets/home_widgets.dart';
 import 'package:trialdemo/features/trialdemo/ui/theme/colors.dart';
 import '../../../controller/home/home_controller.dart';
@@ -19,50 +20,63 @@ class HomePage extends GetView<HomeController> {
     return Obx(
       () => LoadingOverlay(
         isLoading: controller.isLoading,
-        child: Scaffold(
-          body: SizedBox.expand(
-            child: Column(
-              children: [
-                Spacer(),
-                Container(
-                  //Welcome text
-                  child: Text(
-                    _welcomeText,
-                    style: GoogleFonts.montserrat(
-                      fontSize: _fontSize,
-                      color: MyColor.mainTheme,
-                      fontWeight: _fontWeightBold,
+        child: SafeArea(
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: MyColor.mainTheme,
+              onPressed: () {
+                controller.addUser();
+              },
+            ),
+            body: SizedBox.expand(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Get.height / 10,
+                  ),
+                  Container(
+                    //Welcome text
+                    child: Text(
+                      _welcomeText,
+                      style: GoogleFonts.montserrat(
+                        fontSize: _fontSize,
+                        color: MyColor.mainTheme,
+                        fontWeight: _fontWeightBold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  //Welcome text
-                  child: Text(
-                    _subTitleText,
-                    style: GoogleFonts.montserrat(
-                      fontSize: _fontSizeSubtitle,
-                      color: MyColor.darkBackground,
+                  Container(
+                    //Welcome text
+                    child: Text(
+                      _subTitleText,
+                      style: GoogleFonts.montserrat(
+                        fontSize: _fontSizeSubtitle,
+                        color: MyColor.darkBackground,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 5,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.routeToUserScreen('User Name 1');
+                  Obx(
+                    () => (Expanded(
+                      child: ListView.builder(
+                        itemCount: controller.usersList.length,
+                        itemBuilder: (context, index) {
+                          var itemUser = controller.usersList[index];
+                          return GestureDetector(
+                            onTap: () {
+                              controller.routeToUserScreen(index);
+                            },
+                            child: UserAvatar(
+                              userName: itemUser.name,
+                              imgLink: itemUser.avatar,
+                            ),
+                          );
                         },
-                        child: UserAvatar(
-                          userName: index.toString(),
-                        ),
-                      );
-                    },
+                      ),
+                    )),
                   ),
-                ),
-                Spacer(),
-              ],
+                ],
+              ),
             ),
           ),
         ),

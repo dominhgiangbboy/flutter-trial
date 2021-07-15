@@ -4,8 +4,10 @@ class UserAvatar extends StatelessWidget {
   const UserAvatar({
     Key? key,
     required this.userName,
+    required this.imgLink,
   }) : super(key: key);
   final String userName;
+  final String imgLink;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +20,10 @@ class UserAvatar extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 40,
-              backgroundImage: AssetImage('assets/img/avatar.png'),
+              backgroundImage: NetworkImage(
+                imgLink,
+                scale: 2,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),

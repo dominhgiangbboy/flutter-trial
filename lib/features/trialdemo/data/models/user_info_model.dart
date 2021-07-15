@@ -2,22 +2,26 @@ import '../../domain/entities/users_info.dart';
 
 class UserInfoModel extends UserInfoEntity {
   UserInfoModel({
-    required String userName,
-    required int userID,
+    required String name,
+    required int id,
+    required String avatar,
   }) : super(
-          userID: userID,
-          userName: userName,
+          name: name,
+          id: id,
+          avatar: avatar,
         );
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
     return UserInfoModel(
-      userName: json['user_name'],
-      userID: (json['user_id'] as num).toInt(),
+      name: json['name'],
+      id: int.tryParse(json['id']) ?? 0,
+      avatar: json['avatar'],
     );
   }
   Map<String, dynamic> toJson() {
     return {
-      'user_name': userName,
-      'user_id': userID,
+      'name': name,
+      'id': id,
+      'avatar': avatar,
     };
   }
 }

@@ -4,32 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:trialdemo/core/platform/typedef_declaration.dart';
 import 'package:trialdemo/features/trialdemo/ui/theme/colors.dart';
 
-class PostItems extends StatelessWidget {
+class PostItemDetailed extends StatelessWidget {
   final TextStyle _userNameFont = GoogleFonts.roboto(
     fontSize: 14,
     color: MyColor.darkBackground,
     fontWeight: FontWeight.w500,
   );
-  PostItems({
+  PostItemDetailed({
     Key? key,
     this.imgLink: "",
     this.userName: "",
     this.avatar: "",
     this.time: "",
-    this.post: "",
-    required this.onEdit,
-    required this.onComment,
-    required this.onDelete,
   }) : super(key: key);
 
   final String imgLink;
   final String userName;
-  final String post;
   final String avatar;
   final String time;
-  final CallBack onEdit;
-  final CallBack onComment;
-  final CallBack onDelete;
+
   final TextStyle _timeFont = GoogleFonts.roboto(
     fontSize: 12,
     color: MyColor.lightGray,
@@ -43,7 +36,6 @@ class PostItems extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Divider(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -79,42 +71,11 @@ class PostItems extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Text(post),
-            ),
-          ),
           Image.network(
             imgLink,
             width: double.infinity,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: onEdit,
-                  icon: Icon(
-                    Icons.edit,
-                  ),
-                ),
-                IconButton(
-                  onPressed: onComment,
-                  icon: Icon(
-                    Icons.comment,
-                  ),
-                ),
-                IconButton(
-                  onPressed: onDelete,
-                  icon: Icon(
-                    Icons.delete,
-                  ),
-                )
-              ],
-            ),
-          ),
+          Divider(),
         ],
       ),
     );

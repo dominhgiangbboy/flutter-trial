@@ -1,6 +1,7 @@
+import 'package:trialdemo/features/trialdemo/data/commons/common_data.dart';
+import 'package:trialdemo/features/trialdemo/data/datasoures/user_info_local_data_source.dart';
+import 'package:trialdemo/features/trialdemo/data/models/user_info_model.dart';
 import 'package:trialdemo/features/trialdemo/routes/app_pages.dart';
-
-import '../../domain/entities/users_info.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -12,24 +13,44 @@ class HomeController extends GetxController {
   final _isLoading = false.obs;
   get isLoading => this._isLoading.value;
   set isLoading(value) => this._isLoading.value = value;
-  // Get passing data
-  List<dynamic> itemsHome = List<dynamic>.empty().obs;
-
-  // Get passing data
-  List<dynamic> itemsPersonal = List<dynamic>.empty().obs;
+  // Get user list to UI
+  List<UserInfoModel> usersList = <UserInfoModel>[
+    UserInfoModel(avatar: '', id: 0, name: ' Admin'),
+  ].obs;
 
   @override
   void onInit() {
     super.onInit();
+    _getAllUsers();
   }
 
-  routeToUserScreen(String userName) async {
-    //input_screen
+  void _getAllUsers() async {
+    isLoading = true;
+    this.usersList.clear();
+    var userListDataSource = UseListDataSourceImpl();
+    List<UserInfoModel> _userList = await userListDataSource.getUserList();
+    this.usersList.addAll(_userList);
+    isLoading = false;
+  }
+
+  addUser() async {
+    isLoading = true;
+    var userList = UseListDataSourceImpl();
+    var _status = await userList.addUser();
+    if (_status == ResponseCode.responseSuccess) {
+      _getAllUsers();
+    } else if (_status == ResponseCode.responseFailed) {}
+    isLoading = false;
+  }
+
+  routeToUserScreen(int index) async {
     this.isLoading = true;
-    await Get.offAndToNamed(
+    UserInfoModel _user = this.usersList[index];
+    await Get.toNamed(
       Routes.NEW_FEED_SCREEN,
-      arguments: {'userName': userName},
+      arguments: _user,
     );
+    this.isLoading = false;
     return;
   }
 }

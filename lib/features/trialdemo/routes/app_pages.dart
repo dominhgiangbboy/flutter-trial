@@ -1,7 +1,9 @@
 import 'package:trialdemo/features/trialdemo/bindings/detailed_screen_binding.dart';
 import 'package:trialdemo/features/trialdemo/bindings/home_binding.dart';
+import 'package:trialdemo/features/trialdemo/bindings/input_screen_binding.dart';
 import 'package:trialdemo/features/trialdemo/bindings/new_feed_screen_binding.dart';
 import 'package:trialdemo/features/trialdemo/ui/pages/detailed_screen/detailed_screen.dart';
+import 'package:trialdemo/features/trialdemo/ui/pages/input_screen/input_screen.dart';
 import 'package:trialdemo/features/trialdemo/ui/pages/new_feed_screen/new_feed_screen.dart';
 
 import '../bindings/splash_screen_binding.dart';
@@ -38,6 +40,17 @@ class AppPages {
       page: () => DetailedScreen(),
       binding: DetailedScreenBinding(),
     ),
-    // Login Screen
+    // Input screen
+    GetPage(
+      name: Routes.DETAILED_SCREEN,
+      page: () => DetailedScreen(),
+      binding: DetailedScreenBinding(),
+    ),
+    // Input screen
+    GetPage(
+      name: Routes.INPUT_SCREEN,
+      page: () => InputScreen(),
+      binding: InputScreenBinding(),
+    ),
   ];
 }

@@ -1,29 +1,48 @@
+import 'package:trialdemo/core/dio_http/dio.dart';
+import 'package:trialdemo/core/snack_bar/snack_bar_show.dart';
+import 'package:trialdemo/features/trialdemo/data/commons/api_urls.dart';
+import 'package:trialdemo/features/trialdemo/data/commons/commonFunction.dart';
+import 'package:trialdemo/features/trialdemo/data/commons/common_data.dart';
+
 import '../models/user_info_model.dart';
 
-abstract class UserInfoLocalDataSource {
-  /// Gets the cached [NumberTriviaModel] which was gotten the last time
-  /// the user had an internet connection.
-  ///
-  /// Throws [NoLocalDataException] if no cached data is present.
-  Future<UserInfoModel> getLastUserList();
-
-  Future<void> cacheUserList(UserInfoModel userToCache);
+abstract class UserListDataSource {
+  // ---- Get user list
+  Future<List<UserInfoModel>> getUserList();
 }
 
-const CACHED_NUMBER_TRIVIA = 'CACHED_NUMBER_TRIVIA';
-
-class UserInfoLocalDataSourceImpl implements UserInfoLocalDataSource {
-  UserInfoLocalDataSourceImpl();
+class UseListDataSourceImpl extends DioClient implements UserListDataSource {
+  UseListDataSourceImpl();
 
   @override
-  Future<void> cacheUserList(UserInfoModel userToCache) {
-    // TODO: implement cacheUserList
-    throw UnimplementedError();
+  Future<List<UserInfoModel>> getUserList() async {
+    // Gets all users
+    final response = await get(
+      url: APIEndpoints.usersEndpoint,
+    );
+    var _dataUserList = response.data;
+    List<UserInfoModel> _userList = [];
+    _dataUserList.forEach(
+      (dynamic user) => _userList.add(
+        UserInfoModel.fromJson(user),
+      ),
+    );
+    return _userList;
   }
 
   @override
-  Future<UserInfoModel> getLastUserList() {
-    // TODO: implement cacheUserList
-    throw UnimplementedError();
+  Future<int> addUser() async {
+    // Gets all users
+    var dataReq = {
+      "userid": 1,
+    };
+    try {
+      await post(url: APIEndpoints.usersEndpoint, dataReq: dataReq);
+      SnackBarCommon.snackBarSucessShow("", "Success fully created user");
+      return ResponseCode.responseSuccess;
+    } catch (e) {
+      SnackBarCommon.snackBarErrorShow(e.toString(), e.toString());
+      return ResponseCode.responseFailed;
+    }
   }
 }

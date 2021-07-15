@@ -6,6 +6,8 @@ class ColorCode {
   static final int textFormBackground = 0xFFE0E0E0;
   static final int lightBackground = 0xFFF8F5F1;
   static final int darkBackground = 0xFF000000;
+  static final int errorColor = 0xFFFF0000;
+  static final int successColor = 0xFF52E20E;
 }
 
 class MyColor {

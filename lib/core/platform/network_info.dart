@@ -16,4 +16,3 @@ class NetworkInfo {
     return isConnected;
   }
 }
-

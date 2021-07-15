@@ -45,7 +45,7 @@ class NewFeedScreenController extends GetxController {
     int _status =
         await postListDataSource.generatePostList("New post", postsList[0].img);
     if (_status == ResponseCode.responseSuccess) {
-      SnackBarCommon.snackBarSucessShow("", "Generate user successfully");
+      SnackBarCommon.snackBarSucessShow("", "Generate post successfully!");
     }
 
     isLoading = false;
